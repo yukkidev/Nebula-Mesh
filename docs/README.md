@@ -4,7 +4,7 @@ This repo is structured by device type:
 - `main_pc/` (Brain / classification + processing)
 - `vps/` (Buffer/Proxy + shared persistence)
 - `rpi3_dashboard/` (Status display)
-- `mobile_client/` (Input router)
+- `input_client/` (Input router for laptops/Python-capable machines)
 
 The implementation is intentionally MVP-first: each component has a small surface area and is testable.
 

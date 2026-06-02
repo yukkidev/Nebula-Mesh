@@ -18,7 +18,7 @@ Phone/Laptop → Mobile Client → VPS (buffer) → Main PC (process) → Chroma
 |-----------|-----------|------|---------|
 | **Main PC** | Flask + ChromaDB | 8001 | Classification, vector embedding, long-term storage |
 | **VPS** | FastAPI + SQLite | 8000 | Temporary queue buffer, PII stripping, vector backup |
-| **Mobile Client** | Flask | 8002 | Input gateway with smart routing (PC-first, VPS-fallback) |
+| **Input Client** | Flask | 8002 | Input gateway for laptops/Python-capable machines with smart routing (PC-first, VPS-fallback) |
 | **RPi Dashboard** | Flask | 5000 | Live status display (polls VPS) |
 
 ## Data Flow
@@ -49,8 +49,8 @@ Phone/Laptop → Mobile Client → VPS (buffer) → Main PC (process) → Chroma
 - **`PIFirewall.strip_pii(text)`** — Regex-based redaction of email addresses and phone numbers before data leaves the VPS.
 - **`SQLiteSyncManager`** — Bridges the queue to the `SyncManager` protocol.
 
-### Mobile Client (`mobile_client/`)
-- **`MobileInputServer`** — Flask app that routes submissions to the Main PC when it is reachable, otherwise falls back to the VPS buffer.
+### Input Client (`input_client/`)
+- **`InputServer`** — Flask app that routes submissions to the Main PC when it is reachable, otherwise falls back to the VPS buffer.
 
 ### Sync Daemon (`main_pc/sync_daemon.py`)
 - **`SyncDaemon`** — Async loop that polls the VPS for pending items, processes each through the classification engine, generates a deterministic pseudo-vector, and stores results in ChromaDB.
@@ -68,7 +68,7 @@ All components read configuration from environment variables:
 | `PIM_VPS_URL` | `http://vps.local:8000` | VPS base URL |
 | `PIM_PC_URL` | `http://main-pc.local:8001` | Main PC base URL |
 | `PIM_PC_PORT` | `8001` | Main PC listen port |
-| `PIM_MOBILE_PORT` | `8002` | Mobile client listen port |
+| `PIM_INPUT_PORT` | `8002` | Input client listen port |
 | `PIM_RPI_PORT` | `5000` | RPi dashboard listen port |
 | `VPS_PORT` | `8000` | VPS listen port |
 | `PIM_VPS_QUEUE_DB` | `./vps_data/pending_sync.db` | SQLite queue path |
@@ -84,7 +84,7 @@ Each component has a setup script:
 ```bash
 bash setup_main_pc.sh
 bash setup_vps.sh
-bash setup_mobile_client.sh
+bash setup_input_client.sh
 bash setup_rpi3_dashboard.sh
 ```
 
@@ -100,7 +100,7 @@ python -m main_pc
 python -m vps
 
 # Mobile Client
-python -m mobile_client
+python -m input_client
 
 # RPi Dashboard
 python -m rpi3_dashboard

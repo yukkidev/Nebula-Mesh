@@ -81,10 +81,10 @@ def test_vps_pending_queue_thread_safety():
         assert queue.size() == 30
 
 
-def test_mobile_client_routes_to_pc_when_online(monkeypatch):
-    """Test mobile client routes directly to PC when available."""
-    from mobile_client import server as s
-    from mobile_client.config import MobileConfig
+def test_input_client_routes_to_pc_when_online(monkeypatch):
+    """Test input client routes directly to PC when available."""
+    from input_client import server as s
+    from input_client.config import InputConfig
 
     health_called = False
     pc_called = False
@@ -132,7 +132,7 @@ def test_mobile_client_routes_to_pc_when_online(monkeypatch):
     monkeypatch.setattr("requests.get", fake_get)
     monkeypatch.setattr("requests.post", fake_post)
 
-    app = s.MobileInputServer(config=MobileConfig())._app
+    app = s.InputServer(config=InputConfig())._app
 
     from flask import testing
 
@@ -146,10 +146,10 @@ def test_mobile_client_routes_to_pc_when_online(monkeypatch):
     assert pc_called
 
 
-def test_mobile_client_fallback_to_vps_when_pc_offline(monkeypatch):
-    """Test mobile client falls back to VPS when PC unreachable."""
-    from mobile_client import server as s
-    from mobile_client.config import MobileConfig
+def test_input_client_fallback_to_vps_when_pc_offline(monkeypatch):
+    """Test input client falls back to VPS when PC unreachable."""
+    from input_client import server as s
+    from input_client.config import InputConfig
 
     vps_called = False
 
@@ -175,7 +175,7 @@ def test_mobile_client_fallback_to_vps_when_pc_offline(monkeypatch):
     monkeypatch.setattr("requests.get", fake_get)
     monkeypatch.setattr("requests.post", fake_post)
 
-    app = s.MobileInputServer(config=MobileConfig())._app
+    app = s.InputServer(config=InputConfig())._app
 
     client = app.test_client()
     resp = client.post("/api/submit", json={"text": "test thought"})

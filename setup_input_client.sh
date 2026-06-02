@@ -8,4 +8,4 @@ pip install -U pip setuptools wheel
 pip install -e "."
 pip install flask requests
 
-echo "Mobile client setup complete. Run: .venv/bin/python -m mobile_client"
+echo "Input client setup complete. Run: .venv/bin/python -m input_client"

@@ -14,15 +14,15 @@ Phone/Laptop → Mobile Client → VPS (buffer) → Main PC (process) → Chroma
 
 | Component | Location | Framework | Purpose |
 |-----------|----------|-----------|---------|
-| MobileClient | mobile_client/ | Flask | Routes input to PC (if online) or VPS (fallback) |
+| InputClient | input_client/ | Flask | Routes input to PC (if online) or VPS (fallback) |
 | VPS | vps/ | FastAPI | Temporary buffer, PII stripping, SQLite queue |
 | MainPC | main_pc/ | Flask + asyncio | Classification, ChromaDB storage |
 | Dashboard | rpi3_dashboard/ | Flask | Status display (polls VPS) |
 
 ## Data Flow Details
 
-1. User submits thought via mobile_client
-2. mobile_client checks if PC is reachable (health check)
+1. User submits thought via input_client
+2. input_client checks if PC is reachable (health check)
 3. If PC online → POST to PC `/ingest`
 4. If PC offline → POST to VPS `/ingest` (queued in SQLite)
 5. SyncDaemon polls VPS `/get_pending` every 5 seconds

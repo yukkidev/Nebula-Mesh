@@ -8,10 +8,10 @@ import requests
 from flask import Flask, jsonify, request
 
 
-from mobile_client.config import MobileConfig
+from input_client.config import InputConfig
 
 
-class MobileInputServer:
+class InputServer:
     def __init__(self, *, config: MobileConfig) -> None:
         self._config = config
         self._app = Flask(__name__)
@@ -68,7 +68,7 @@ class MobileInputServer:
     def start(self) -> None:
         self._app.run(
             host="0.0.0.0",
-            port=int(os.environ.get("PIM_MOBILE_PORT", "8002")),
+            port=int(os.environ.get("PIM_INPUT_PORT", "8002")),
             debug=False,
         )
 
@@ -78,4 +78,4 @@ def build_app() -> Flask:
         pc_url=os.environ.get("PIM_PC_URL", "http://main-pc.local:8001"),
         vps_url=os.environ.get("PIM_VPS_URL", "http://vps.local:8000"),
     )
-    return MobileInputServer(config=cfg)._app
+    return InputServer(config=cfg)._app

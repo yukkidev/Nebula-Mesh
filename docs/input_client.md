@@ -1,4 +1,6 @@
-# Mobile/Input Client Setup
+# Input Client Setup
+
+The input client is a gateway for laptops and other Python-capable machines. It routes submissions to the Main PC when online, or falls back to the VPS buffer.
 
 ## 1) Install
 
@@ -14,13 +16,13 @@ pip install flask requests
 ```bash
 export PIM_PC_URL=http://main-pc.local:8001
 export PIM_VPS_URL=http://vps.local:8000
-export PIM_MOBILE_PORT=8002
+export PIM_INPUT_PORT=8002
 ```
 
 ## 3) Run
 
 ```bash
-.venv/bin/python -m mobile_client
+.venv/bin/python -m input_client
 ```
 
 Endpoints:

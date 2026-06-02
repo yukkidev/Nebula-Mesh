@@ -1,8 +1,8 @@
 import json
 
 
-def test_mobile_routes_to_vps_when_pc_offline(monkeypatch):
-    from mobile_client import server as s
+def test_input_routes_to_vps_when_pc_offline(monkeypatch):
+    from input_client import server as s
 
     calls = {"vps": 0, "pc": 0, "health": 0}
 
@@ -32,8 +32,8 @@ def test_mobile_routes_to_vps_when_pc_offline(monkeypatch):
     monkeypatch.setattr(s.requests, "get", fake_get)
     monkeypatch.setattr(s.requests, "post", fake_post)
 
-    app = s.MobileInputServer(
-        config=s.MobileConfig(pc_url="http://pc", vps_url="http://vps")
+    app = s.InputServer(
+        config=s.InputConfig(pc_url="http://pc", vps_url="http://vps")
     )._app
 
     client = app.test_client()

@@ -33,7 +33,7 @@ The system consists of 4 device types, each with distinct responsibilities:
 - `PendingSyncQueue` - Thread-safe SQLite queue for sync items
 - `PIFirewall` - Strips PII before forwarding to cloud services
 - `DashboardServer` - RPi status display
-- `MobileClient` - Input client with routing logic (PC if online, VPS otherwise)
+- `InputClient` - Input gateway for laptops/Python-capable machines with routing logic (PC if online, VPS otherwise)
 - `TailscaleManager` - Device discovery and connectivity management
 - `UpdateManager` - Git-based deployment orchestrator
 
@@ -43,7 +43,7 @@ The system consists of 4 device types, each with distinct responsibilities:
 main_pc/           # Classification engine, vector memory, sync daemon
 vps/               # FastAPI server, pending sync queue, PII firewall
 rpi3_dashboard/    # Flask status dashboard
-mobile_client/     # React/Vue PWA input client
+input_client/     # Input gateway for laptops/Python-capable machines
 update_manager.py  # Deployment orchestration
 ```
 
