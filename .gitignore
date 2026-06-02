@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# Build
+*.egg-info/
+*.egg
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.ruff_cache/
+
+# Data (contains local state / potentially sensitive)
+vps_data/
+chroma_db/
+
+# Project config
+.proj
+
+# OS
+.DS_Store
+Thumbs.db
